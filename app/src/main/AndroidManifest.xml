@@ -18,4 +18,6 @@
         </activity>
     </application>
 
+    <!-- 음성인식에 필요함 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 </manifest>
