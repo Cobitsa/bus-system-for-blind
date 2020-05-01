@@ -15,13 +15,9 @@ public class MainActivity extends AppCompatActivity {
     private STT stt;
     private Button sttButton;
 
-    // TTS 호출 예제
-    private TTS tts;
-    private Button btnEnter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tts = new TTS(getApplicationContext());
         setContentView(R.layout.activity_main);
         stt = new STT(getApplicationContext());
         sttButton = (Button) findViewById(R.id.STTButton);
