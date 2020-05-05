@@ -20,4 +20,9 @@
 
     <!-- 음성인식에 필요함 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <!-- 공공 API 파싱에 필요함 -->
+    <uses-permission android:name = "android.permission.INTERNET"/>
+    <!-- 현재 위치데이터에 필요함 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 </manifest>
