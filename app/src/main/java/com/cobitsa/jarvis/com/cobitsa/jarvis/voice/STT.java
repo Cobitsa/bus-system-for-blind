@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
+import com.cobitsa.jarvis.MainActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +32,8 @@ public class STT {
     final Context context;
     ArrayList<String> result = new ArrayList<String>();
 
-    public STT(final Context context) {
-        this.context = context;
+    public STT() {
+        this.context = MainActivity.getAppContext();
         intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context.getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
