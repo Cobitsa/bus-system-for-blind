@@ -31,6 +31,7 @@ public class STT {
     Komoran komoran;
     final Context context;
     ArrayList<String> result = new ArrayList<String>();
+    Boolean isResult = true;
 
     public STT() {
         this.context = MainActivity.getAppContext();
@@ -72,15 +73,18 @@ public class STT {
 
             @Override
             public void onResults(Bundle bundle) {
-                String key = "";
-                key = SpeechRecognizer.RESULTS_RECOGNITION;
-                result = bundle.getStringArrayList(key);
-                String[] rs = new String[result.size()];
-                result.toArray(rs);
-                Toast.makeText(context, rs[0], Toast.LENGTH_SHORT).show();
+                if(isResult){ //google SpeechRecognizer의 onResults가 두번 실행되는 오류때문에 핸들링
+                    String key = "";
+                    key = SpeechRecognizer.RESULTS_RECOGNITION;
+                    result = bundle.getStringArrayList(key);
+                    String[] rs = new String[result.size()];
+                    result.toArray(rs);
+                    Toast.makeText(context, rs[0], Toast.LENGTH_SHORT).show();
 
-                System.out.println(result.get(0));
-                executeCommand(result.get(0));
+                    System.out.println(result.get(0));
+                    executeCommand(result.get(0));
+                    isResult = false;
+                }
             }
 
             @Override
@@ -102,6 +106,7 @@ public class STT {
         } else {
             //권한을 허용한 경우
             try {
+                this.isResult = true;
                 mRecognizer.startListening(intent);
             } catch (SecurityException e) {
                 e.printStackTrace();
