@@ -14,12 +14,19 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
+import kr.co.shineware.nlp.komoran.core.Komoran;
+import kr.co.shineware.nlp.komoran.model.KomoranResult;
+import kr.co.shineware.nlp.komoran.model.Token;
 
 import static androidx.core.app.ActivityCompat.requestPermissions;
 
 public class STT {
     Intent intent;
     SpeechRecognizer mRecognizer;
+    Komoran komoran;
     final Context context;
     ArrayList<String> result = new ArrayList<String>();
 
@@ -29,6 +36,7 @@ public class STT {
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context.getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
         mRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
+        this.komoran = new Komoran(DEFAULT_MODEL.FULL);
         mRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle bundle) {
@@ -52,7 +60,7 @@ public class STT {
 
             @Override
             public void onEndOfSpeech() {
-
+                System.out.println("입력 종료");
             }
 
             @Override
@@ -69,14 +77,8 @@ public class STT {
                 result.toArray(rs);
                 Toast.makeText(context, rs[0], Toast.LENGTH_SHORT).show();
 
-                System.out.println("=================================================");
-                for (int i = 0; i < result.size(); i++)
-                    System.out.println(result.get(i));
-                System.out.println("=================================================");
-                //여기서부터 형태소 분석 실행 예정
-
-
-                //여기서부터 구문에 맞게 메소드 실행 예정
+                System.out.println(result.get(0));
+                executeCommand(result.get(0));
             }
 
             @Override
@@ -103,6 +105,21 @@ public class STT {
                 e.printStackTrace();
             }
         }
+    }
+
+    public List<Token> analyzeCommand(String command) {
+        KomoranResult analyzeResultList = this.komoran.analyze(command);
+        return analyzeResultList.getTokenList();
+    }
+
+    public void executeCommand(String command) {
+        List<Token> tokens = analyzeCommand(command);
+        for (int i = 0; i < tokens.size(); i++) {
+            System.out.println(tokens.get(i).toString());
+        }
+        // 단어 찾기
+
+        //명령 찾기기
     }
 
     public void shutdownSTT() {
