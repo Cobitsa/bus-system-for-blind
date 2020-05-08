@@ -21,7 +21,7 @@ public class TraceBus {
         boolean breaker = false;
         
         // 버스 도착정보 2번 API   getBusPosByVehIdItem 사용
-        final String queryUrl = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId&vehId=111033115" +
+        final String queryUrl = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId" +
                 "?ServiceKey=" + key +
                 "&vehId=" + vehId;
 
