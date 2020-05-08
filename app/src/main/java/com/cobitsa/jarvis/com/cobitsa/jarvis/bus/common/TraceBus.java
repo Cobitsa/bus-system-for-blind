@@ -15,11 +15,11 @@ public class TraceBus {
     String stId;        // 정류소 ID        - 내부에 저장되어 있는 현재 정류장 정보
     String vehId;       // 버스 ID          - 탑승 예정 또는 중인 버스 정보
 
-    boolean isArrived = false;      // 리턴값
-    boolean breaker = false;
-
     public boolean traceBus(String busRouteId) throws InterruptedException {
 
+        boolean isArrived = false;      // 리턴값
+        boolean breaker = false;
+        
         // 버스 도착정보 2번 API   getBusPosByVehIdItem 사용
         final String queryUrl = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId&vehId=111033115" +
                 "?ServiceKey=" + key +
@@ -46,7 +46,7 @@ public class TraceBus {
                             case XmlPullParser.TEXT:
                                 if(breaker) {
                                     breaker = false;
-                                    if(parser.getText() == stId) {       // API 반환값 (0:운행중, 1:도착)
+                                    if(parser.getText() == stId) {       
                                         isArrived = true;
                                     } // API출력값이 LIST가 아니기 때문에 여기서 바로 while문 중지하고 리턴해도 될듯.
                                 }
