@@ -32,6 +32,8 @@ public class STT {
     final Context context;
     ArrayList<String> result = new ArrayList<String>();
     Boolean isResult = true;
+    TTS tts;
+    Activity activity;
 
     public STT() {
         this.context = MainActivity.getAppContext();
@@ -40,6 +42,7 @@ public class STT {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
         mRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
         this.komoran = new Komoran(DEFAULT_MODEL.FULL);
+        tts = new TTS();
         mRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle bundle) {
@@ -73,7 +76,7 @@ public class STT {
 
             @Override
             public void onResults(Bundle bundle) {
-                if(isResult){ //google SpeechRecognizer의 onResults가 두번 실행되는 오류때문에 핸들링
+                if (isResult) { //google SpeechRecognizer의 onResults가 두번 실행되는 오류때문에 핸들링
                     String key = "";
                     key = SpeechRecognizer.RESULTS_RECOGNITION;
                     result = bundle.getStringArrayList(key);
@@ -107,6 +110,7 @@ public class STT {
             //권한을 허용한 경우
             try {
                 this.isResult = true;
+                this.activity = activity;
                 mRecognizer.startListening(intent);
             } catch (SecurityException e) {
                 e.printStackTrace();
@@ -114,19 +118,35 @@ public class STT {
         }
     }
 
-    public List<Token> analyzeCommand(String command) {
-        KomoranResult analyzeResultList = this.komoran.analyze(command);
-        return analyzeResultList.getTokenList();
+    public KomoranResult analyzeCommand(String command) {
+        return this.komoran.analyze(command);
+
     }
 
-    public void executeCommand(String command) {
-        List<Token> tokens = analyzeCommand(command);
-        for (int i = 0; i < tokens.size(); i++) {
-            System.out.println(tokens.get(i).toString());
+    public Boolean executeCommand(String command) {
+        KomoranResult analyzeResult = analyzeCommand(command);
+        List<String> verb = analyzeResult.getMorphesByTags("VV");
+        if (verb.contains("타")) {
+            //탑승할 버스 지정
+            System.out.println("탑승할 버스 노선 지정");
+            String[] split = command.split("번");
+            tts.speech(split[0] + "번 버스가 맞습니까?");
+        } else if (verb.contains("내리")) {
+            // 내릴 정류장 지정
+            System.out.println("하차할 정류장 지정");
+            String[] split = command.split("에서");
+            tts.speech(split[0] + "이 맞습니까?");
+        } else if (analyzeResult.getMorphesByTags("NP").contains("여기")) {
+            // 현재 정류장 확인
+            System.out.println("현재 정류장 위치 확인");
+        } else if (command.contains("네") || command.contains("응")) {
+            return true;
+        } else if (command.contains("아니")) {
+            return false;
+        } else {
+            tts.speech("잘 모르겠어요. 다시 한번 말씀해주세요.");
         }
-        // 단어 찾기
-
-        //명령 찾기기
+        return true;
     }
 
     public void shutdownSTT() {
