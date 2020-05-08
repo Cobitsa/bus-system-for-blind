@@ -23,7 +23,7 @@ public class TraceBus {
         // 버스 도착정보 2번 API   getBusPosByVehIdItem 사용
         final String queryUrl = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId&vehId=111033115" +
                 "?ServiceKey=" + key +
-                "&vehId=111033115" + vehId;
+                "&vehId=" + vehId;
 
         while(!isArrived) {
                 try {
