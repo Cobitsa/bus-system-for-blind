@@ -9,11 +9,11 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.cobitsa.jarvis.com.cobitsa.jarvis.voice.STT;
+import com.cobitsa.jarvis.com.cobitsa.jarvis.voice.Command;
 
 public class MainActivity extends AppCompatActivity {
     private Activity mainActivity = this;
-    private STT stt;
+    private Command command;
     private Button sttButton;
     private static Context context;
 
@@ -22,12 +22,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         MainActivity.context = getApplicationContext();
         setContentView(R.layout.activity_main);
-        stt = new STT();
+        command = new Command(mainActivity);
         sttButton = (Button) findViewById(R.id.STTButton);
         sttButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stt.getCommand(mainActivity);
+                    command.getCommand();
             }
         });
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        stt.shutdownSTT();
+        command.shutdownCommand();
         super.onDestroy();
     }
 
