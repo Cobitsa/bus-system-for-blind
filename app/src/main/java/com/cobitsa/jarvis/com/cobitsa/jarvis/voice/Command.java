@@ -24,7 +24,7 @@ public class Command {
 
     public Command(Activity activity) {
         stt = new STT(activity);
-        this.komoran = new Komoran(DEFAULT_MODEL.FULL);
+        this.komoran = new Komoran(DEFAULT_MODEL.LIGHT);
         tts = new TTS();
 
         setOnEndListeningListener(new OnEndListeningListener() {
@@ -97,5 +97,6 @@ public class Command {
 
     public void shutdownCommand() {
         stt.shutdownSTT();
+        tts.shutdownTTS();
     }
 }
