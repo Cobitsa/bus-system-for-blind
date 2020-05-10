@@ -7,25 +7,65 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TraceBus {
 
-    String key ="인증키";
+    String key;
+    String stId;
+    String busRouteId;
+    String vehId;
+    String queryUrl;
 
-    String stId;        // 정류소 ID        - 내부에 저장되어 있는 현재 정류장 정보
-    String vehId;       // 버스 ID          - 탑승 예정 또는 중인 버스 정보
+    boolean isArrived;
+    boolean bloop;
 
-    public boolean traceBus(String busRouteId) throws InterruptedException {
+    int count;
 
-        boolean isArrived = false;      // 리턴값
-        boolean breaker = false;
-        
-        // 버스 도착정보 2번 API   getBusPosByVehIdItem 사용
-        final String queryUrl = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId" +
+    public TraceBus(String key, String stId, String busRouteId, String vehId) {
+        this.key = key;
+        this.stId = stId;
+        this.busRouteId = busRouteId;
+        this.vehId = vehId;
+        queryUrl = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId" +
                 "?ServiceKey=" + key +
                 "&vehId=" + vehId;
+        isArrived = false;
+        count = 0;
 
-        while(!isArrived) {
+    }
+
+    public boolean tracing() {
+
+        checkBusLoc();
+        while(true) {
+            if(isArrived)
+                break;
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return isArrived;
+    }
+
+    public void checkBusLoc() {
+
+        final Timer timer = new Timer();
+
+        final TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+
+                if(count == 5) {
+                    isArrived = true;
+                    timer.cancel();
+                }
+
+                count++;
+
                 try {
                     URL url = new URL(queryUrl);
 
@@ -40,15 +80,16 @@ public class TraceBus {
                         switch (parserEvent) {
                             case XmlPullParser.START_TAG:
                                 if (parser.getName().equals("stId")) {
-                                    breaker = true;
+                                    bloop = true;
                                 }
                                 break;
                             case XmlPullParser.TEXT:
-                                if(breaker) {
-                                    breaker = false;
-                                    if(parser.getText() == stId) {       
+                                if(bloop) {
+                                    bloop = false;
+                                    if(parser.getText() == stId) {
                                         isArrived = true;
-                                    } // API출력값이 LIST가 아니기 때문에 여기서 바로 while문 중지하고 리턴해도 될듯.
+                                        timer.cancel();
+                                    }
                                 }
                                 break;
                         }
@@ -58,11 +99,9 @@ public class TraceBus {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if(!isArrived) {
-                    Thread.sleep(10000);        // 10초 딜레이
-                }
             }
-
-        return isArrived;
+        };
+        timer.schedule(task, 0, 1000);
     }
+
 }
