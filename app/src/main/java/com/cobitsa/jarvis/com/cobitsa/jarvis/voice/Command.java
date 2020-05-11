@@ -75,7 +75,7 @@ public class Command {
         } else if (analyzeResult.getMorphesByTags("NP").contains("여기")) {
             // 현재 정류장 확인
             tts.speech("현재 정류장 정보를 알려드릴게요");
-        } else if (command.contains("네") || command.contains("응") || command.contains("맞아")) {
+        } else if (command.contains("그래") || command.contains("어") || command.contains("네") || command.contains("응") || command.contains("맞아")) {
             if (commandFlag == 1) {
                 // 탑승지정 명령 실행
                 tts.speech(this.args.get(0)+"번 버스가 오면 알려드릴게요");
