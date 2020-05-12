@@ -1,17 +1,18 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.voice;
 
 import android.app.Activity;
-import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
+
+import com.cobitsa.jarvis.MainActivity;
 
 import java.util.Locale;
 
 public class TTS extends Activity implements TextToSpeech.OnInitListener {
     private TextToSpeech tts;
 
-    public TTS (Context context){
-        tts = new TextToSpeech(context,this);
+    public TTS (){
+        tts = new TextToSpeech(MainActivity.getAppContext(),this);
     }
 
     @Override
