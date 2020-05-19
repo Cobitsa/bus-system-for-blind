@@ -1,132 +1,122 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.bus.getoff;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.ArrayList;
+
+import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.ParsingXML;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class SetDestination {
 
-    String key;                         // 서비스 키
-    HashMap<String, String> stList;     // 생성할 노선에 대한 정류소 리스트 <이름, ID>
+    String key;                               // 서비스 키
+    ArrayList<String> nameList;               // 정류소 이름 List
+    ArrayList<String> idList;                 // 정류소 아이디 List
 
     // SetDestination 생성자
     // @param key = 서비스 키
     public SetDestination(String key) {
         this.key = key;
-        stList = new HashMap<>();
+        nameList = new ArrayList<>();
+        idList = new ArrayList<>();
     }
 
     // 메인 메소드
     // @param 버스 노선 ID, STT로 받은 정류소 명
     // @return 유효한 정류소인 경우 정류소 ID
     // @return 유효하지 않은 정류소인 경우 ""
-    public String setDestination(String busRouteId, String sttDestination) {
-
+    public String setDestination(String busRouteId, String nowArsId, String sttDestination) {
         String destinationId = "";      // return 값
+        String tmpName = "";            // 임시 변수 1
+        String tmpId = "";              // 임시 변수 2
 
-        // 정류소 리스트 생성 (HashMap)
-        stList = makeStList(busRouteId);
+        // API URL 생성
+        final String url = "http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute" +
+                "?ServiceKey=" + key +
+                "&busRouteId=" + busRouteId;
+
+        try {
+
+            // 파싱
+            ParsingXML parsingXML = new ParsingXML(url);
+            for(int i = 0; i < parsingXML.getLength(); i++) {
+                tmpName = parsingXML.parsing("stationNm", i);
+                tmpId += parsingXML.parsing("station", i);
+
+                // Name과 ID 각각의 리스트에 저장
+                nameList.add(tmpName);
+                idList.add(tmpId);
+            }
+
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
 
         // 유효한 정류소인지 확인
-        // 유효하다면 리턴값 변경
-        if(findSt(sttDestination, stList)) {
-            destinationId = stList.get(sttDestination);
+        if(isExist(sttDestination, nameList)) {
+            // 현재 위치한 정류장 또는 탑승한 정류장 인덱스
+            int nowIndex = getIndex(nowArsId, idList);
+            // 도착지의 인덱스를 저장할 리스트 (같은 이름의 정류장이 2개인 경우가 있으므로 리스트로 관리)
+            ArrayList<Integer> desIndex = new ArrayList<>();
+
+            // 도착지의 인덱스를 리스트에 저장
+            for(int index = 0; index < nameList.size(); index++) {
+                if(nameList.get(index).equals(sttDestination)) {
+                    desIndex.add(index);
+                }
+            }
+
+            // 현재 또는 탑승한 정류장의 다음 정류장 위치 고려하여
+            // 도착지 인덱스 리스트에서 맞는 값 선택하는 과정
+            if(desIndex.size() == 1) {
+                destinationId = idList.get(0);
+            }
+            else if(desIndex.size() == 2) {
+                destinationId = idList.get(0);
+                if(nowIndex > desIndex.get(0) && nowIndex < desIndex.get(1)) {
+                    destinationId = idList.get(1);
+                }
+            }
+
         }
 
         return destinationId;
     }
 
-    // 정류소 리스트를 생성하는 메소드
-    // @param 버스 노선 ID
-    // @return 생성된 정류소 리스트 (HashMap)
-    public HashMap<String, String> makeStList(String busRouteId) {
+    // STT로 입력받은 정류소 이름이 유효한 정유장인지 확인 후 인덱스 값 반환
+    // @param STT로 입력받은 정류소, 정류소 이름 리스트
+    // @return 유효하다면 인덱스 값, 유효하지 않다면 -1
+    public boolean isExist(String sttDestination, ArrayList<String> nameList) {
+        boolean ret = false;
 
-        HashMap<String, String> hashMap = new HashMap<>();
-        boolean breakbyName = false;    // 루프 제어 1
-        boolean breakbyId = false;      // 루프 제어 2
-        int breakloop = 0;              // 루프 제어 3
-        String tmpName = "";            // 임시 변수 1
-        String tmpId = "";              // 임시 변수 2
-
-        // API URL 생성
-        final String queryUrl = "http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute" +
-                "?ServiceKey=" + key +
-                "&busRouteId=" + busRouteId;
-
-        try {
-            URL url = new URL(queryUrl);
-
-            XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = parserCreator.newPullParser();
-
-            parser.setInput(url.openStream(), null);
-
-            int parserEvent = parser.getEventType();
-
-            while (parserEvent != XmlPullParser.END_DOCUMENT) {
-                switch (parserEvent) {
-                    case XmlPullParser.START_TAG:
-                        // 정류소 이름 찾으면
-                        if (parser.getName().equals("stationNm")) {
-                            breakbyName = true;
-                        }
-                        // 정류소 아이디 찾으면
-                        if (parser.getName().equals("arsId")) {
-                            breakbyId = true;
-                        }
-                        break;
-                    case XmlPullParser.TEXT:
-                        // 임시 변수에 이름 저장
-                        if(breakbyName) {
-                            tmpName = parser.getName();
-                            breakbyName = false;
-                            breakloop++;
-                        }
-                        // 임시 변수에 아이디 저장
-                        if(breakbyId) {
-                            tmpId = parser.getName();
-                            breakbyId = false;
-                            breakloop++;
-                        }
-                        // 이름과 아이디를 모두 찾은 상황이면 리스트에 저장
-                        if(breakloop == 2) {
-                            hashMap.put(tmpName, tmpId);
-                            breakloop = 0;
-                            tmpName = "";
-                            tmpId = "";
-                        }
-                        break;
-                }
+        for(String name : nameList) {
+            if(name.equals(sttDestination)) {
+                ret = true;
+                break;
             }
-        } catch (MalformedURLException | XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
-        return hashMap;
+        return ret;
     }
 
-    // STT로 입력받은 정류소 이름이 유효한 정유장인지 확인
-    // @param STT로 입력받은 정류소, 정류소 리스트
-    // @return 유효하다면 true, 유효하지 않다면 false
-    public boolean findSt(String sttDestination, HashMap<String, String> hashMap) {
+    // @param 정류소 ID, 정류소 ID 리스트
+    // @return 유효하다면 인덱스 값, 유효하지 않다면 -1
+    public int getIndex(String id, ArrayList<String> idList) {
+        int index = -1;
 
-        boolean isExist = false;
-        Set<String> keys = hashMap.keySet();
-
-        for (String key : keys) {
-            if (key.equals(sttDestination)) {
-                isExist = true;
+        for(int i = 0; i < idList.size(); i++) {
+            if(idList.get(i).equals(id)) {
+                index = i;
+                break;
             }
         }
 
-        return isExist;
+        return index;
     }
 }
