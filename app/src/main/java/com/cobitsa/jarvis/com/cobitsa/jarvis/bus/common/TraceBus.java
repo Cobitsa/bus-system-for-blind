@@ -48,7 +48,7 @@ public class TraceBus {
                 try {
                     ParsingXML parsingXML = new ParsingXML(url);
                     String s = "";
-                    s = parsingXML.parsing("stId");
+                    s = parsingXML.parsing("stId", 0);
                     if(s.equals(stId)) {
                          //탑승 예정 버스가 이전 정류장 도착한 경우
                         if(flag == 1) {
