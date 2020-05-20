@@ -1,7 +1,6 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.voice;
 
 import android.app.Activity;
-import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
 
