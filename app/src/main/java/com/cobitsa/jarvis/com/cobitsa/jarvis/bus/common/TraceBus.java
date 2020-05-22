@@ -13,6 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 public class TraceBus {
 
     String key;         // 서비스 키
+    String url;
+
+    ParsingXML parsingXML;
 
     // TraceBus 생성자
     // @param 서비스 키 값
@@ -24,12 +27,15 @@ public class TraceBus {
     // @param 정류소 ID, 차량 ID, 탑승예정 or 탑승 중 플레그
     // @flag = 1 탑승 예정 버스인 경우
     // @flag = 2 탑승 중인 버스인 경우
-    public void tracing(String stId, String vehId, int flag) {
-        String url = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId" +
+    public void tracing(String prevStId, String vehId, int flag) {
+
+        url = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId" +
                 "?ServiceKey=" + key +
                 "&vehId=" + vehId;
 
-        checkBusLoc(url, stId, flag);
+        checkBusLoc(url, prevStId, flag);
+
+
     }
 
     // 스케쥴러 메소드, 10초마다 버스 위치를 확인한다.
@@ -44,8 +50,8 @@ public class TraceBus {
         final TimerTask task = new TimerTask() {
             @Override
             public void run() {
-
                 try {
+                    System.out.println("스케줄러 실행!!");
                     ParsingXML parsingXML = new ParsingXML(url);
                     String s = "";
                     s = parsingXML.parsing("stId", 0);
@@ -74,5 +80,23 @@ public class TraceBus {
 
         // 10초 주기로 스케줄러 실행
         timer.schedule(task, 0, 10000);
+    }
+
+    private  String getPreStId(String url, String stId){
+        String preStId = "";
+        int preIndex = -1;
+        try{
+            parsingXML = new ParsingXML(url);
+            preIndex = parsingXML.index("station", stId) - 1;
+            preStId = parsingXML.parsing("station", preIndex);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+
+        return preStId;
     }
 }
