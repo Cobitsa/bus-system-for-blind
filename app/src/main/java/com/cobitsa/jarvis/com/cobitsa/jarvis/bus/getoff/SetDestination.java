@@ -5,13 +5,19 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.GetPrevStId;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.ParsingXML;
+import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.TraceBus;
 
 import javax.xml.parsers.ParserConfigurationException;
+
+import static com.cobitsa.jarvis.MainActivity.userData;
 
 public class SetDestination {
 
     String key;                                                 // 서비스 키
+    GetPrevStId getPrevStId;
+    TraceBus traceBus;
 
     // 해당 노선의 모든 정류소들의 정보를 담는 List
     ArrayList<String> nameList;                 // 정류소 이름 List
@@ -25,6 +31,8 @@ public class SetDestination {
         nameList = new ArrayList<>();
         idList = new ArrayList<>();
         arsIdList = new ArrayList<>();
+        this.getPrevStId = new GetPrevStId(key);
+        this.traceBus = new TraceBus(key);
     }
 
     // 메인 메소드
@@ -34,7 +42,7 @@ public class SetDestination {
     // @return List(0) : 정류소 이름
     // @return List(1) : 정류소 아이디
     // @return List(2) : 정류소 고유번호
-    public ArrayList<String> set(String busRouteId, String startArsId, String sttDestination) {
+    public void setBus(String busRouteId, String startArsId, String sttDestination) {
         String desId = "";
         String desName = "";
         String desArs = "";
@@ -49,7 +57,7 @@ public class SetDestination {
 
         try {
             ParsingXML parsingXML = new ParsingXML(url);
-            for(int i = 0; i < parsingXML.getLength(); i++){
+            for (int i = 0; i < parsingXML.getLength(); i++) {
                 tmpArs = parsingXML.parsing("arsId", i);
                 tmpId = parsingXML.parsing("station", i);
                 tmpName = parsingXML.parsing("stationNm", i);
@@ -57,40 +65,35 @@ public class SetDestination {
                 nameList.add(tmpName);
                 arsIdList.add(tmpArs);
             }
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | InterruptedException e) {
             e.printStackTrace();
         }
 
 
         // 유효한 정류소인지 확인
         // 만약 유효하다면 목적지가 될수있는 모든 정류소의 인덱스를 리스트에 저장
-        if(isExist(sttDestination, nameList)) {
+        if (isExist(sttDestination, nameList)) {
             ArrayList<Integer> indexList = new ArrayList<>();
 
             indexList.add(getIndex(startArsId, arsIdList));
 
-            for(int index = 0; index < nameList.size(); index++) {
-                if(nameList.get(index).equals(sttDestination)) {
+            for (int index = 0; index < nameList.size(); index++) {
+                if (nameList.get(index).equals(sttDestination)) {
                     indexList.add(index);
                 }
             }
 
             // 현재 또는 탑승한 정류장의 다음 정류장 위치 고려하여
             // 도착지 인덱스 리스트에서 맞는 값 선택하는 과정
-            if(indexList.size() == 2) {
+            if (indexList.size() == 2) {
                 desId = idList.get(indexList.get(1));
                 desName = nameList.get(indexList.get(1));
                 desArs = arsIdList.get(indexList.get(1));
-            }
-            else if(indexList.size() == 3) {
+            } else if (indexList.size() == 3) {
                 desId = idList.get(indexList.get(1));
                 desName = nameList.get(indexList.get(1));
                 desArs = arsIdList.get(indexList.get(1));
-                if(indexList.get(0) > indexList.get(1) && indexList.get(0) < indexList.get(2)) {
+                if (indexList.get(0) > indexList.get(1) && indexList.get(0) < indexList.get(2)) {
                     desId = idList.get(indexList.get(2));
                     desName = nameList.get(indexList.get(2));
                     desArs = arsIdList.get(indexList.get(2));
@@ -102,8 +105,13 @@ public class SetDestination {
         refList.add(desName);
         refList.add(desId);
         refList.add(desArs);
+        userData.setDestStation(desId, desName, desArs);
+        // Process 6 : 버스 추적을 위한 이전 정류소 정보 검색
+        userData.desStation.prevId = getPrevStId.get(userData.ridingBus.routeId, userData.desStation.id);
 
-        return refList;
+        // Process 7 : 탑승중인 버스 추적
+        traceBus.tracing(userData.desStation.prevId, userData.ridingBus.vehId, 2);
+
     }
 
     // STT로 입력받은 정류소 이름이 유효한 정유장인지 확인 후 인덱스 값 반환
@@ -111,8 +119,8 @@ public class SetDestination {
     public boolean isExist(String sttDestination, ArrayList<String> nameList) {
         boolean ret = false;
 
-        for(String name : nameList) {
-            if(name.equals(sttDestination)) {
+        for (String name : nameList) {
+            if (name.equals(sttDestination)) {
                 ret = true;
                 break;
             }
@@ -125,8 +133,8 @@ public class SetDestination {
     public int getIndex(String id, ArrayList<String> list) {
         int index = -1;
 
-        for(int i = 0; i < list.size(); i++) {
-            if(list.get(i).equals(id)) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).equals(id)) {
                 index = i;
                 break;
             }

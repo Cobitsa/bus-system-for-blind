@@ -44,7 +44,6 @@ public class TraceBus {
     public void checkBusLoc(final String url, final String stId, final int flag) {
 
 
-
         final TTS tts = new TTS();
         final Timer timer = new Timer();
         final TimerTask task = new TimerTask() {
@@ -55,24 +54,20 @@ public class TraceBus {
                     ParsingXML parsingXML = new ParsingXML(url);
                     String s = "";
                     s = parsingXML.parsing("stId", 0);
-                    if(s.equals(stId)) {
-                         //탑승 예정 버스가 이전 정류장 도착한 경우
-                        if(flag == 1) {
+                    if (s.equals(stId)) {
+                        //탑승 예정 버스가 이전 정류장 도착한 경우
+                        if (flag == 1) {
                             tts.speech("탑승 예정 버스가 이전 정류장을 출발했습니다. 탑승준비를 해주세요.");
                             // 버스기사 단말기에 탑승자 있음 정보알림
                         }
                         // 탑승 중인 버스가 이전 정류장 도착한 경우
-                        else if(flag == 2) {
+                        else if (flag == 2) {
                             tts.speech("목적지가 다음 정류장 입니다. 하차준비를 해주세요.");
                         }
 
                         timer.cancel();
                     }
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (SAXException e) {
+                } catch (ParserConfigurationException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -82,18 +77,14 @@ public class TraceBus {
         timer.schedule(task, 0, 10000);
     }
 
-    private  String getPreStId(String url, String stId){
+    private String getPreStId(String url, String stId) {
         String preStId = "";
         int preIndex = -1;
-        try{
+        try {
             parsingXML = new ParsingXML(url);
             preIndex = parsingXML.index("station", stId) - 1;
             preStId = parsingXML.parsing("station", preIndex);
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | InterruptedException e) {
             e.printStackTrace();
         }
 

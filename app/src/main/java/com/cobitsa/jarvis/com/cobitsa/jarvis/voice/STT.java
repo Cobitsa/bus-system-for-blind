@@ -66,17 +66,17 @@ public class STT {
 
             @Override
             public void onResults(Bundle bundle) {
-                    String key = "";
-                    key = SpeechRecognizer.RESULTS_RECOGNITION;
-                    result = bundle.getStringArrayList(key);
-                    String[] rs = new String[result.size()];
-                    result.toArray(rs);
-                    Toast.makeText(context, rs[0], Toast.LENGTH_SHORT).show();
-                    try {
-                        Command.onEndListeningListener.onEndListening(new ListeningEvent(this));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                String key = "";
+                key = SpeechRecognizer.RESULTS_RECOGNITION;
+                result = bundle.getStringArrayList(key);
+                String[] rs = new String[result.size()];
+                result.toArray(rs);
+                Toast.makeText(context, rs[0], Toast.LENGTH_SHORT).show();
+                try {
+                    Command.onEndListeningListener.onEndListening(new ListeningEvent(this));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -91,7 +91,7 @@ public class STT {
         });
     }
 
-    public void startListening(){
+    public void startListening() {
         mRecognizer.startListening(intent);
     }
 

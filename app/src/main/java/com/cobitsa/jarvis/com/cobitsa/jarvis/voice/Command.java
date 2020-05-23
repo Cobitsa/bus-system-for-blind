@@ -2,8 +2,11 @@ package com.cobitsa.jarvis.com.cobitsa.jarvis.voice;
 
 import android.app.Activity;
 
+import com.cobitsa.jarvis.MainActivity;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.UserData;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.GetPrevStId;
+import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.GpsTracker;
+import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.ride.GetStationInfo;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.ride.SetRideBus;
 
 import java.util.ArrayList;
@@ -13,6 +16,10 @@ import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
 import kr.co.shineware.nlp.komoran.model.KomoranResult;
 
+import static com.cobitsa.jarvis.MainActivity.rideBus;
+import static com.cobitsa.jarvis.MainActivity.setDestination;
+import static com.cobitsa.jarvis.MainActivity.userData;
+
 public class Command {
     private STT stt;
     TTS tts;
@@ -20,6 +27,10 @@ public class Command {
     ArrayList<String> args = new ArrayList<String>();
     int commandFlag = 0;
     int cnt = 0;
+    Activity mainActivity;
+    GetStationInfo getStationInfo;
+
+    private String key = "mpXr6l%2BzwqmC6m4%2B%2FXEuhxPp62Z0EthgawICAoV%2BxIv4OKFnU53i2bH2omhogoZ3a4HWK1uK3Uq8WpJxn2k3WQ%3D%3D";
     public static OnEndListeningListener onEndListeningListener = null;
 
     public void setOnEndListeningListener(OnEndListeningListener listener) {
@@ -30,7 +41,8 @@ public class Command {
         stt = new STT(activity);
         this.komoran = new Komoran(DEFAULT_MODEL.LIGHT);
         tts = new TTS();
-
+        this.mainActivity = activity;
+        this.getStationInfo = new GetStationInfo(key);
         setOnEndListeningListener(new OnEndListeningListener() {
             @Override
             public void onEndListening(ListeningEvent listeningEvent) throws InterruptedException {
@@ -42,7 +54,7 @@ public class Command {
         });
     }
 
-    public void getCommand(){
+    public void getCommand() {
         stt.startListening();
     }
 
@@ -78,14 +90,20 @@ public class Command {
             getCommand();
         } else if (analyzeResult.getMorphesByTags("NP").contains("여기")) {
             // 현재 정류장 확인
-            tts.speech("현재 정류장 정보를 알려드릴게요");
+            if (getStationInfo.checkWhereAmI(mainActivity))
+                tts.speech("이곳은" + userData.startStation.name + "정류장입니다. 정류장번호는 " + userData.startStation.arsId + "입니다.");
+            else
+                tts.speech("이곳은 정류장이 아닙니다.");
+
         } else if (command.contains("그래") || command.contains("어") || command.contains("네") || command.contains("응") || command.contains("맞아")) {
             if (commandFlag == 1) {
                 // 탑승지정 명령 실행
                 tts.speech(this.args.get(0) + "번 버스가 오면 알려드릴게요");
+                rideBus.setBus(userData.startStation.arsId, this.args.get(0));
             } else if (commandFlag == 2) {
                 // 하차지정 명령 실행
-                tts.speech(this.args.get(0)+ "에서 알려드릴게요");
+                tts.speech(this.args.get(0) + "에서 알려드릴게요");
+                setDestination.setBus(userData.ridingBus.routeId, userData.startStation.arsId, this.args.get(0));
             }
             commandFlag = 0;
             args.clear();
