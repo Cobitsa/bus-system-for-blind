@@ -11,8 +11,8 @@ import java.util.Locale;
 public class TTS extends Activity implements TextToSpeech.OnInitListener {
     private TextToSpeech tts;
 
-    public TTS (){
-        tts = new TextToSpeech(MainActivity.getAppContext(),this);
+    public TTS() {
+        tts = new TextToSpeech(MainActivity.getAppContext(), this);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class TTS extends Activity implements TextToSpeech.OnInitListener {
         }
     }
 
-     public void speech(String text) {
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,null);
+    public void speech(String text) {
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
 }

@@ -11,7 +11,7 @@ public class GetPrevStId {
     String key;         // 인증키
 
     // 키값으로 초기화
-    public GetPrevStId(String key){
+    public GetPrevStId(String key) {
         this.key = key;
     }
 
@@ -19,22 +19,17 @@ public class GetPrevStId {
     // @param busRouteId : 노선 정보
     // @param stId : 현재 정류소 아이디
     // @return 이전 정류소의 아이디
-    public  String get(String busRouteId, String stId){
+    public String get(String busRouteId, String stId) {
         String url = "http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute" +
-                             "?ServiceKey=" + key +
-                             "&busRouteId=" + busRouteId;
+                "?ServiceKey=" + key +
+                "&busRouteId=" + busRouteId;
         String prevStId = "";       // 리턴값
         int preIndex;                     // 이전 정류소 인덱스
-
-        try{
+        try {
             ParsingXML parsingXML = new ParsingXML(url);
             preIndex = parsingXML.index("station", stId) - 1;
             prevStId = parsingXML.parsing("station", preIndex);
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | InterruptedException e) {
             e.printStackTrace();
         }
 
