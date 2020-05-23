@@ -2,6 +2,10 @@ package com.cobitsa.jarvis.com.cobitsa.jarvis.voice;
 
 import android.app.Activity;
 
+import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.UserData;
+import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.GetPrevStId;
+import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.ride.SetRideBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +82,7 @@ public class Command {
         } else if (command.contains("그래") || command.contains("어") || command.contains("네") || command.contains("응") || command.contains("맞아")) {
             if (commandFlag == 1) {
                 // 탑승지정 명령 실행
-                tts.speech(this.args.get(0)+"번 버스가 오면 알려드릴게요");
+                tts.speech(this.args.get(0) + "번 버스가 오면 알려드릴게요");
             } else if (commandFlag == 2) {
                 // 하차지정 명령 실행
                 tts.speech(this.args.get(0)+ "에서 알려드릴게요");

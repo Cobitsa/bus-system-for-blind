@@ -5,7 +5,6 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.UserData;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.ParsingXML;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,6 +12,8 @@ import javax.xml.parsers.ParserConfigurationException;
 public class SetDestination {
 
     String key;                                                 // 서비스 키
+
+    // 해당 노선의 모든 정류소들의 정보를 담는 List
     ArrayList<String> nameList;                 // 정류소 이름 List
     ArrayList<String> idList;                       // 정류소 아이디 List
     ArrayList<String> arsIdList;                 // 정류소 고유번호 List
@@ -27,16 +28,19 @@ public class SetDestination {
     }
 
     // 메인 메소드
-    // @param 버스 노선 ID, STT로 받은 정류소 명
-    // @return 유효한 정류소인 경우 정류소 ID
-    // @return 유효하지 않은 정류소인 경우 ""
+    // @param busRouteId : 버스 노선 ID
+    // @param startArsId : 버스를 탑승한 정류소의 고유번호
+    // @param sttDestination : STT로 받은 정류소 명
+    // @return List(0) : 정류소 이름
+    // @return List(1) : 정류소 아이디
+    // @return List(2) : 정류소 고유번호
     public ArrayList<String> set(String busRouteId, String startArsId, String sttDestination) {
         String desId = "";
         String desName = "";
         String desArs = "";
-        String tmpName = "";            // 임시 변수 1
-        String tmpId = "";                   // 임시 변수 2
-        String tmpArs = "";                   // 임시 변수 3
+        String tmpName = "";
+        String tmpId = "";
+        String tmpArs = "";
 
         // API URL 생성
         final String url = "http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute" +
@@ -63,6 +67,7 @@ public class SetDestination {
 
 
         // 유효한 정류소인지 확인
+        // 만약 유효하다면 목적지가 될수있는 모든 정류소의 인덱스를 리스트에 저장
         if(isExist(sttDestination, nameList)) {
             ArrayList<Integer> indexList = new ArrayList<>();
 
@@ -103,7 +108,6 @@ public class SetDestination {
 
     // STT로 입력받은 정류소 이름이 유효한 정유장인지 확인 후 인덱스 값 반환
     // @param STT로 입력받은 정류소, 정류소 이름 리스트
-    // @return 유효하다면 인덱스 값, 유효하지 않다면 -1
     public boolean isExist(String sttDestination, ArrayList<String> nameList) {
         boolean ret = false;
 

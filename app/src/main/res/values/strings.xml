@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Cobitsa</string>
     <string name="sttbutton">STTButton</string>
+    <string name="getoffbutton">getOffButton</string>
+    <string name="ridebutton">rideButton</string>
+    <string name="gpsbutton">GPSBUTTON</string>
 </resources>
