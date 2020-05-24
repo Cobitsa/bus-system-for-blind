@@ -1,14 +1,17 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common;
 
-import org.xml.sax.SAXException;
+import android.media.MediaPlayer;
 
-import java.io.IOException;
+import com.cobitsa.jarvis.R;
+import com.cobitsa.jarvis.com.cobitsa.jarvis.voice.TTS;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.cobitsa.jarvis.com.cobitsa.jarvis.voice.TTS;
-
 import javax.xml.parsers.ParserConfigurationException;
+
+import static com.cobitsa.jarvis.MainActivity.getAppContext;
+import static com.cobitsa.jarvis.MainActivity.vibrator;
 
 public class TraceBus {
 
@@ -50,14 +53,16 @@ public class TraceBus {
             @Override
             public void run() {
                 try {
-                    System.out.println("스케줄러 실행!!");
                     ParsingXML parsingXML = new ParsingXML(url);
                     String s = "";
                     s = parsingXML.parsing("stId", 0);
                     if (s.equals(stId)) {
                         //탑승 예정 버스가 이전 정류장 도착한 경우
+                        MediaPlayer mediaPlayer = MediaPlayer.create(getAppContext(), R.raw.sound_dingdong);
+                        mediaPlayer.start();
+                        vibrator.vibrate(500);
                         if (flag == 1) {
-                            tts.speech("탑승 예정 버스가 이전 정류장을 출발했습니다. 탑승준비를 해주세요.");
+                            tts.speech("버스가 이전 정류장을 출발했습니다. 탑승준비를 해주세요.");
                             // 버스기사 단말기에 탑승자 있음 정보알림
                         }
                         // 탑승 중인 버스가 이전 정류장 도착한 경우

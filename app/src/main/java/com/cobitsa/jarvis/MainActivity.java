@@ -4,8 +4,12 @@ package com.cobitsa.jarvis;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private Button rideButton;
     private Button getOffButton;
     private Button gpsButton;
-
+    public static Vibrator vibrator;
     private Button sttButton;
     private static Context context;
     private String key = "mpXr6l%2BzwqmC6m4%2B%2FXEuhxPp62Z0EthgawICAoV%2BxIv4OKFnU53i2bH2omhogoZ3a4HWK1uK3Uq8WpJxn2k3WQ%3D%3D";
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         rideButton = findViewById(R.id.RideButton);
         rideBus = new SetRideBus(key);
         setDestination = new SetDestination(key);
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -133,5 +138,6 @@ public class MainActivity extends AppCompatActivity {
     public static Context getAppContext() {
         return MainActivity.context;
     }
+
 }
 
