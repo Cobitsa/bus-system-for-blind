@@ -25,7 +25,7 @@ public class GetStationInfo {
         GpsTracker gpsTracker = new GpsTracker(mainActivity);
         double latitute = gpsTracker.getLatitude();
         double longitude = gpsTracker.getLongitude();
-        ArrayList<String> stInfo = this.getApiData(Double.toString(latitute), Double.toString(longitude), Integer.toString(30));
+        ArrayList<String> stInfo = this.getApiData(Double.toString(longitude),Double.toString(latitute),  Integer.toString(30));
         if (stInfo == null)
             return false;
         userData.setStartStation(stInfo.get(0), stInfo.get(1), stInfo.get(2));
