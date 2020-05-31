@@ -5,6 +5,12 @@ import android.media.MediaPlayer;
 import com.cobitsa.jarvis.R;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.voice.TTS;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,6 +23,7 @@ public class TraceBus {
 
     String key;         // 서비스 키
     String url;
+    String vehId;
 
     ParsingXML parsingXML;
 
@@ -35,7 +42,7 @@ public class TraceBus {
         url = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId" +
                 "?ServiceKey=" + key +
                 "&vehId=" + vehId;
-
+        this.vehId = vehId;
         checkBusLoc(url, prevStId, flag);
 
 
@@ -57,22 +64,29 @@ public class TraceBus {
                     String s = "";
                     s = parsingXML.parsing("stId", 0);
                     if (s.equals(stId)) {
-                        //탑승 예정 버스가 이전 정류장 도착한 경우
+                        URL url = new URL("https://api.codingnome.dev/bus/" + vehId);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        // 음성, 진동 알림
                         MediaPlayer mediaPlayer = MediaPlayer.create(getAppContext(), R.raw.sound_dingdong);
                         mediaPlayer.start();
                         vibrator.vibrate(500);
+                        //탑승 예정 버스가 이전 정류장 도착한 경우
                         if (flag == 1) {
                             tts.speech("버스가 이전 정류장을 출발했습니다. 탑승준비를 해주세요.");
-                            // 버스기사 단말기에 탑승자 있음 정보알림
+                            conn.setRequestMethod("POST");
                         }
                         // 탑승 중인 버스가 이전 정류장 도착한 경우
                         else if (flag == 2) {
                             tts.speech("목적지가 다음 정류장 입니다. 하차준비를 해주세요.");
+                            conn.setRequestMethod("PUT");
                         }
-
+                        OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+                        out.write("");
+                        out.close();
+                        conn.getInputStream();
                         timer.cancel();
                     }
-                } catch (ParserConfigurationException | InterruptedException e) {
+                } catch (ParserConfigurationException | InterruptedException | IOException e) {
                     e.printStackTrace();
                 }
             }
