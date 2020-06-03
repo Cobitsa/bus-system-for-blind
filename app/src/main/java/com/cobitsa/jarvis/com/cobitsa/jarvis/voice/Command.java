@@ -2,12 +2,7 @@ package com.cobitsa.jarvis.com.cobitsa.jarvis.voice;
 
 import android.app.Activity;
 
-import com.cobitsa.jarvis.MainActivity;
-import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.UserData;
-import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.GetPrevStId;
-import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.GpsTracker;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.ride.GetStationInfo;
-import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.ride.SetRideBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,22 +63,25 @@ public class Command {
         List<String> verb = analyzeResult.getMorphesByTags("VV");
         if (verb.contains("타")) {
             //탑승할 버스 지정
-            System.out.println("탑승할 버스 노선 지정");
             String[] split = command.split("번");
             args.add(split[0]);
             tts.speech(split[0] + "번 버스가 맞습니까?");
-            Thread.sleep(2000);
+            Thread.sleep(3000);
             commandFlag = 1;
             //맞는지아닌지 확인
             this.cnt = 1;
             getCommand();
         } else if (verb.contains("내리")) {
             // 내릴 정류장 지정
-            System.out.println("하차할 정류장 지정");
+            if(userData.ridingBus.vehId.equals("")){
+                tts.speech("죄송해요. 지금 탑승하시고 계신 버스를 모르겠어요.");
+                return;
+            }
+
             String[] split = command.split("에서");
             args.add(split[0]);
             tts.speech(split[0] + "이 맞습니까?");
-            Thread.sleep(2000);
+            Thread.sleep(3000);
             commandFlag = 2;
             this.cnt = 1;
             //맞는지 아닌지 확인
@@ -98,12 +96,23 @@ public class Command {
         } else if (command.contains("그래") || command.contains("어") || command.contains("네") || command.contains("응") || command.contains("맞아")) {
             if (commandFlag == 1) {
                 // 탑승지정 명령 실행
-                tts.speech(this.args.get(0) + "번 버스가 오면 알려드릴게요");
-                rideBus.setBus(userData.startStation.arsId, this.args.get(0));
+                if (rideBus.setBus(userData.startStation.arsId, this.args.get(0)))
+                    tts.speech(this.args.get(0) + "번 버스가 오면 알려드릴게요");
+                else
+                    tts.speech("죄송해요 " + this.args.get(0) + "번 버스를 찾을수 없어요. 다시 확인해주세요.");
             } else if (commandFlag == 2) {
+                String station = "";
+                if (this.args.get(0).substring(this.args.get(0).length() - 1).equals("역"))
+                    station = this.args.get(0).substring(0, this.args.get(0).length() - 1);
+                else if (this.args.get(0).substring(this.args.get(0).length() - 3).equals("정류장"))
+                    station = this.args.get(0).substring(0, this.args.get(0).length() - 3);
+                else
+                    station = this.args.get(0);
                 // 하차지정 명령 실행
-                tts.speech(this.args.get(0) + "에서 알려드릴게요");
-                setDestination.setBus(userData.ridingBus.routeId, userData.startStation.arsId, this.args.get(0));
+                if (setDestination.setBus(userData.ridingBus.routeId, userData.startStation.arsId, station))
+                    tts.speech(station + " 정류장 에서 알려드릴게요");
+                else
+                    tts.speech("죄송해요 " + station + " 정류장을 찾을수 없어요. 다시 확인해주세요.");
             }
             commandFlag = 0;
             args.clear();

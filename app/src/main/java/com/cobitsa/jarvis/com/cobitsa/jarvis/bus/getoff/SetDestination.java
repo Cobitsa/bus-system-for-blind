@@ -42,7 +42,7 @@ public class SetDestination {
     // @return List(0) : 정류소 이름
     // @return List(1) : 정류소 아이디
     // @return List(2) : 정류소 고유번호
-    public void setBus(String busRouteId, String startArsId, String sttDestination) {
+    public Boolean setBus(String busRouteId, String startArsId, String sttDestination) {
         String desId = "";
         String desName = "";
         String desArs = "";
@@ -100,6 +100,8 @@ public class SetDestination {
                 }
             }
         }
+        else
+            return false;
 
         ArrayList<String> refList = new ArrayList<>();
         refList.add(desName);
@@ -111,7 +113,7 @@ public class SetDestination {
 
         // Process 7 : 탑승중인 버스 추적
         traceBus.tracing(userData.desStation.prevId, userData.ridingBus.vehId, 2);
-
+        return true;
     }
 
     // STT로 입력받은 정류소 이름이 유효한 정유장인지 확인 후 인덱스 값 반환

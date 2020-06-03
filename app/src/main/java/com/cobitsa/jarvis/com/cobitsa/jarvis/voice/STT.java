@@ -41,7 +41,6 @@ public class STT {
 
             @Override
             public void onBeginningOfSpeech() {
-                Toast.makeText(context, "지금부터 말을 해주세요!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -56,7 +55,6 @@ public class STT {
 
             @Override
             public void onEndOfSpeech() {
-                System.out.println("입력 종료");
             }
 
             @Override
@@ -71,7 +69,6 @@ public class STT {
                 result = bundle.getStringArrayList(key);
                 String[] rs = new String[result.size()];
                 result.toArray(rs);
-                Toast.makeText(context, rs[0], Toast.LENGTH_SHORT).show();
                 try {
                     Command.onEndListeningListener.onEndListening(new ListeningEvent(this));
                 } catch (InterruptedException e) {
