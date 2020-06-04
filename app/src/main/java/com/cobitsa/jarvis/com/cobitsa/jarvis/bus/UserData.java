@@ -13,10 +13,24 @@ public class UserData {
         ridingBus = new Bus();
     }
 
+    public void cleanUserData(){
+        this.ridingBus.number = "";
+        this.ridingBus.routeId = "";
+        this.ridingBus.vehId="";
+        startStation.arsId="";
+        startStation.id="";
+        startStation.arsId = "";
+        startStation.prevId = "";
+        this. desStation.arsId="";
+        this.desStation.id="";
+        this.desStation.arsId = "";
+        this. desStation.prevId = "";
+
+    }
     public void setStartStation(String id, String name, String arsId) {
-        this.startStation.name = name;
-        this.startStation.id = id;
-        this.startStation.arsId = arsId;
+        startStation.name = name;
+        startStation.id = id;
+        startStation.arsId = arsId;
     }
 
     public void setDestStation(String id, String name, String arsId) {
@@ -25,25 +39,25 @@ public class UserData {
         this.desStation.arsId = arsId;
     }
 
-    public class Bus {
+    public static class Bus {
         public String number;       // 버스 번호
         public String routeId;        // 노선 아이디
         public String vehId;           // 차량 아이디
 
-        public Bus() {
+        Bus() {
             number = "";
             routeId = "";
             vehId = "";
         }
     }
 
-    public class Station {
+    public static class Station {
         public String name;         // 정류소 이름
         public String id;               // 정류소 아이디
         public String arsId;         // 정류소 고유번호
         public String prevId;       // 이전 정류소 아이디
 
-        public Station() {
+        Station() {
             name = "";
             id = "";
             arsId = "";

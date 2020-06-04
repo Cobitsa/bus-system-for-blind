@@ -17,6 +17,7 @@ import java.util.TimerTask;
 import javax.xml.parsers.ParserConfigurationException;
 
 import static com.cobitsa.jarvis.MainActivity.getAppContext;
+import static com.cobitsa.jarvis.MainActivity.userData;
 import static com.cobitsa.jarvis.MainActivity.vibrator;
 
 public class TraceBus {
@@ -79,6 +80,7 @@ public class TraceBus {
                         else if (flag == 2) {
                             tts.speech("목적지가 다음 정류장 입니다. 하차준비를 해주세요.");
                             conn.setRequestMethod("PUT");
+                            userData.cleanUserData();
                         }
                         OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
                         out.write("");

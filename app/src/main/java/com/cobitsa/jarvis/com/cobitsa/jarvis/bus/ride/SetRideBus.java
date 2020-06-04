@@ -3,6 +3,7 @@ package com.cobitsa.jarvis.com.cobitsa.jarvis.bus.ride;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.GetPrevStId;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.ParsingXML;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.TraceBus;
+import com.cobitsa.jarvis.com.cobitsa.jarvis.voice.TTS;
 
 import org.xml.sax.SAXException;
 
@@ -31,7 +32,7 @@ public class SetRideBus {
     // @param sttBus : STT로 받은 탑승하려는 버스 번호
     // @return List(0) : 버스 번호
     // @return List(1) : 버스 노선 아이디
-    public void setBus(String arsId, String sttBus) {
+    public Boolean setBus(String arsId, String sttBus) {
 
         String url = "http://ws.bus.go.kr/api/rest/stationinfo/getRouteByStation" +
                 "?ServiceKey=" + key +
@@ -54,6 +55,8 @@ public class SetRideBus {
             e.printStackTrace();
         }
 
+        if(tmpNum.equals(""))
+            return false;
         infoList.add(tmpNum);
         infoList.add(tmpRouteId);
         userData.ridingBus.number = infoList.get(0);
@@ -68,6 +71,7 @@ public class SetRideBus {
 
         // Process 4 : 탑승예정 버스 추적
         traceBus.tracing(userData.startStation.prevId, userData.ridingBus.vehId, 1);
+        return true;
     }
 
     // 탑승하려는 노선의 버스 중 첫번째로 도착예정인 버스의 차량 아이디 반환
