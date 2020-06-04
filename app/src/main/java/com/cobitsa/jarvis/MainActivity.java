@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public static UserData userData = new UserData();
     public static SetRideBus rideBus;
     public static SetDestination setDestination;
+    public static TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         rideBus = new SetRideBus(key);
         setDestination = new SetDestination(key);
         vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        textView = findViewById(R.id.currentStTextView);
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},

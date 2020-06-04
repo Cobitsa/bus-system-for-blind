@@ -2,11 +2,14 @@
     <string name="app_name">Cobitsa</string>
     <string name="sttbutton">STTButton</string>
 
-    <string name="tts_content">TTS 명령 실행결과</string>
-    <string name="current_station_content">현재 정류장 정보</string>
-    <string name="ride_bus_content">탑승하려는 버스 정보</string>
-    <string name="destination_content">내리려는 정류소 도착정보</string>
-
     <string name="sample">Sample Text</string>
+    <string name="currentStTextTitle">현재 정류장 정보</string>
+    <string name="busTextTitle">버스 정보</string>
+    <string name="destStTextTitle">도착 정류장 정보</string>
+    <string name="currentStText">현재 정류장</string>
+    <string name="busText">버스 번호</string>
+    <string name="destStText">도착 정류장</string>
+    <string name="currentStIdText">현재 정류장 ID</string>
+    <string name="destStIdText">도착 정류장 ID</string>
 
 </resources>

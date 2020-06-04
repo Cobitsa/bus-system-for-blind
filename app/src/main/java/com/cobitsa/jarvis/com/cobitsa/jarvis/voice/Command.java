@@ -1,7 +1,10 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.voice;
 
 import android.app.Activity;
+import android.widget.TextView;
 
+import com.cobitsa.jarvis.MainActivity;
+import com.cobitsa.jarvis.R;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.ride.GetStationInfo;
 
 import java.util.ArrayList;
@@ -11,8 +14,10 @@ import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
 import kr.co.shineware.nlp.komoran.model.KomoranResult;
 
+import static com.cobitsa.jarvis.MainActivity.getAppContext;
 import static com.cobitsa.jarvis.MainActivity.rideBus;
 import static com.cobitsa.jarvis.MainActivity.setDestination;
+import static com.cobitsa.jarvis.MainActivity.textView;
 import static com.cobitsa.jarvis.MainActivity.userData;
 
 public class Command {
@@ -34,6 +39,7 @@ public class Command {
 
     public Command(Activity activity) {
         stt = new STT(activity);
+
         this.komoran = new Komoran(DEFAULT_MODEL.LIGHT);
         tts = new TTS();
         this.mainActivity = activity;
@@ -59,6 +65,7 @@ public class Command {
     }
 
     public void executeCommand(String command) throws InterruptedException {
+        System.out.println("runn");
         KomoranResult analyzeResult = analyzeCommand(command);
         List<String> verb = analyzeResult.getMorphesByTags("VV");
         if (verb.contains("타")) {
