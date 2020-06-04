@@ -8,7 +8,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -29,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
     public static UserData userData = new UserData();
     public static SetRideBus rideBus;
     public static SetDestination setDestination;
+    public static TextView startStTextView;
+    public static TextView startStIdTextView;
+    public static TextView busTextView;
+    public static TextView destStTextView;
+    public static TextView destStIdTextView;
+    public static Animation anim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +48,23 @@ public class MainActivity extends AppCompatActivity {
         rideBus = new SetRideBus(key);
         setDestination = new SetDestination(key);
         vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        startStTextView = findViewById(R.id.currentStTextView);
+        startStIdTextView = findViewById(R.id.currentStIdTextView);
+        busTextView = findViewById(R.id.busTextView);
+        destStTextView = findViewById(R.id.destStTextView);
+        destStIdTextView = findViewById(R.id.destStIdTextView);
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     0);
         }
 
-
+        // 애니메이션 설정
+        anim = new AlphaAnimation(0.0f,1.0f);
+        anim.setDuration(100);
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(20);
 
         command = new Command(mainActivity);
         sttButton = findViewById(R.id.STTButton);
@@ -66,6 +85,4 @@ public class MainActivity extends AppCompatActivity {
     public static Context getAppContext() {
         return MainActivity.context;
     }
-
 }
-

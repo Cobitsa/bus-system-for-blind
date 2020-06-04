@@ -1,8 +1,5 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.bus.getoff;
 
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.GetPrevStId;
@@ -11,6 +8,7 @@ import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common.TraceBus;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import static com.cobitsa.jarvis.MainActivity.destStIdTextView;
 import static com.cobitsa.jarvis.MainActivity.userData;
 
 public class SetDestination {
@@ -108,6 +106,7 @@ public class SetDestination {
         refList.add(desId);
         refList.add(desArs);
         userData.setDestStation(desId, desName, desArs);
+        destStIdTextView.setText(desArs);
         // Process 6 : 버스 추적을 위한 이전 정류소 정보 검색
         userData.desStation.prevId = getPrevStId.get(userData.ridingBus.routeId, userData.desStation.id);
 

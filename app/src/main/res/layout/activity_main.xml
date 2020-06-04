@@ -9,9 +9,104 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="465dp"
+        android:layout_height="510dp"
+        android:textAlignment="center"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorBlack_1"
+            android:textColor="@color/colorBlue_1"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:text="@string/currentStTextTitle" />
+
+        <TextView
+            android:id="@+id/currentStTextView"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:maxLines="1"
+            android:gravity="center"
+            android:background="@color/colorWhite_1"
+            android:textColor="@color/colorBlack_3"
+            app:autoSizeMaxTextSize="100dp"
+            app:autoSizeMinTextSize="20dp"
+            app:autoSizeTextType="uniform"
+            android:text="@string/currentStText"/>
+
+        <TextView
+            android:id="@+id/currentStIdTextView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:maxLines="1"
+            android:gravity="center"
+            android:background="@color/colorWhite_1"
+            android:textColor="@color/colorBlack_3"
+            app:autoSizeMaxTextSize="100dp"
+            app:autoSizeMinTextSize="20dp"
+            app:autoSizeTextType="uniform"
+            android:text="@string/currentStIdText"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorBlack_1"
+            android:textColor="@color/colorBlue_1"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:text="@string/busTextTitle" />
+
+        <TextView
+            android:id="@+id/busTextView"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:maxLines="1"
+            android:background="@color/colorWhite_1"
+            android:textColor="@color/colorBlack_3"
+            android:gravity="center"
+            app:autoSizeMaxTextSize="100dp"
+            app:autoSizeMinTextSize="20dp"
+            app:autoSizeTextType="uniform"
+            android:text="@string/busText" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorBlack_1"
+            android:textColor="@color/colorBlue_1"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:text="@string/destStTextTitle" />
+
+        <TextView
+            android:id="@+id/destStTextView"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:maxLines="1"
+            android:background="@color/colorWhite_1"
+            android:textColor="@color/colorBlack_3"
+            android:gravity="center"
+            app:autoSizeMaxTextSize="100dp"
+            app:autoSizeMinTextSize="20dp"
+            app:autoSizeTextType="uniform"
+            android:text="@string/destStText" />
+
+        <TextView
+            android:id="@+id/destStIdTextView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:maxLines="1"
+            android:background="@color/colorWhite_1"
+            android:textColor="@color/colorBlack_3"
+            android:gravity="center"
+            app:autoSizeMaxTextSize="100dp"
+            app:autoSizeMinTextSize="20dp"
+            app:autoSizeTextType="uniform"
+            android:text="@string/destStIdText" />
     </LinearLayout>
 
 
