@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Cobitsa</string>
     <string name="sttbutton">STTButton</string>
-    <string name="getoffbutton">getOffButton</string>
-    <string name="ridebutton">rideButton</string>
-    <string name="gpsbutton">GPSBUTTON</string>
+
+    <string name="tts_content">TTS 명령 실행결과</string>
+    <string name="current_station_content">현재 정류장 정보</string>
+    <string name="ride_bus_content">탑승하려는 버스 정보</string>
+    <string name="destination_content">내리려는 정류소 도착정보</string>
+
+    <string name="sample">Sample Text</string>
+
 </resources>
