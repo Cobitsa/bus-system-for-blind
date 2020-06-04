@@ -1,10 +1,7 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.voice;
 
 import android.app.Activity;
-import android.widget.TextView;
 
-import com.cobitsa.jarvis.MainActivity;
-import com.cobitsa.jarvis.R;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.ride.GetStationInfo;
 
 import java.util.ArrayList;
@@ -14,10 +11,12 @@ import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
 import kr.co.shineware.nlp.komoran.model.KomoranResult;
 
-import static com.cobitsa.jarvis.MainActivity.getAppContext;
+import static com.cobitsa.jarvis.MainActivity.busTextView;
+import static com.cobitsa.jarvis.MainActivity.destStTextView;
 import static com.cobitsa.jarvis.MainActivity.rideBus;
 import static com.cobitsa.jarvis.MainActivity.setDestination;
-import static com.cobitsa.jarvis.MainActivity.textView;
+import static com.cobitsa.jarvis.MainActivity.startStIdTextView;
+import static com.cobitsa.jarvis.MainActivity.startStTextView;
 import static com.cobitsa.jarvis.MainActivity.userData;
 
 public class Command {
@@ -65,7 +64,6 @@ public class Command {
     }
 
     public void executeCommand(String command) throws InterruptedException {
-        System.out.println("runn");
         KomoranResult analyzeResult = analyzeCommand(command);
         List<String> verb = analyzeResult.getMorphesByTags("VV");
         if (verb.contains("타")) {
@@ -95,16 +93,21 @@ public class Command {
             getCommand();
         } else if (analyzeResult.getMorphesByTags("NP").contains("여기")) {
             // 현재 정류장 확인
-            if (getStationInfo.checkWhereAmI(mainActivity))
+            if (getStationInfo.checkWhereAmI(mainActivity)) {
                 tts.speech("이곳은" + userData.startStation.name + "정류장입니다. 정류장번호는 " + userData.startStation.arsId + "입니다.");
+                startStTextView.setText(userData.startStation.name);
+                startStIdTextView.setText(userData.startStation.arsId);
+            }
             else
                 tts.speech("이곳은 정류장이 아닙니다.");
 
         } else if (command.contains("그래") || command.contains("어") || command.contains("네") || command.contains("응") || command.contains("맞아")) {
             if (commandFlag == 1) {
                 // 탑승지정 명령 실행
-                if (rideBus.setBus(userData.startStation.arsId, this.args.get(0)))
+                if (rideBus.setBus(userData.startStation.arsId, this.args.get(0))) {
                     tts.speech(this.args.get(0) + "번 버스가 오면 알려드릴게요");
+                    busTextView.setText(this.args.get(0));
+                }
                 else
                     tts.speech("죄송해요 " + this.args.get(0) + "번 버스를 찾을수 없어요. 다시 확인해주세요.");
             } else if (commandFlag == 2) {
@@ -116,8 +119,10 @@ public class Command {
                 else
                     station = this.args.get(0);
                 // 하차지정 명령 실행
-                if (setDestination.setBus(userData.ridingBus.routeId, userData.startStation.arsId, station))
+                if (setDestination.setBus(userData.ridingBus.routeId, userData.startStation.arsId, station)) {
                     tts.speech(station + " 정류장 에서 알려드릴게요");
+                    destStTextView.setText(station);
+                }
                 else
                     tts.speech("죄송해요 " + station + " 정류장을 찾을수 없어요. 다시 확인해주세요.");
             }

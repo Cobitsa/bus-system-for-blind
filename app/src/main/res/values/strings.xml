@@ -1,15 +1,13 @@
 <resources>
     <string name="app_name">Cobitsa</string>
-    <string name="sttbutton">STTButton</string>
 
-    <string name="sample">Sample Text</string>
     <string name="currentStTextTitle">현재 정류장 정보</string>
     <string name="busTextTitle">버스 정보</string>
     <string name="destStTextTitle">도착 정류장 정보</string>
-    <string name="currentStText">현재 정류장</string>
-    <string name="busText">버스 번호</string>
-    <string name="destStText">도착 정류장</string>
-    <string name="currentStIdText">현재 정류장 ID</string>
-    <string name="destStIdText">도착 정류장 ID</string>
+    <string name="currentStText"> </string>
+    <string name="busText"> </string>
+    <string name="destStText"> </string>
+    <string name="currentStIdText"> </string>
+    <string name="destStIdText"> </string>
 
 </resources>

@@ -1,7 +1,9 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common;
 
 import android.media.MediaPlayer;
+import android.widget.TextView;
 
+import com.cobitsa.jarvis.MainActivity;
 import com.cobitsa.jarvis.R;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.voice.TTS;
 
@@ -16,9 +18,14 @@ import java.util.TimerTask;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import static com.cobitsa.jarvis.MainActivity.destStIdTextView;
+import static com.cobitsa.jarvis.MainActivity.destStTextView;
 import static com.cobitsa.jarvis.MainActivity.getAppContext;
+import static com.cobitsa.jarvis.MainActivity.startStIdTextView;
+import static com.cobitsa.jarvis.MainActivity.startStTextView;
 import static com.cobitsa.jarvis.MainActivity.userData;
 import static com.cobitsa.jarvis.MainActivity.vibrator;
+import static com.cobitsa.jarvis.MainActivity.anim;
 
 public class TraceBus {
 
@@ -75,12 +82,16 @@ public class TraceBus {
                         if (flag == 1) {
                             tts.speech("버스가 이전 정류장을 출발했습니다. 탑승준비를 해주세요.");
                             conn.setRequestMethod("POST");
+                            startStTextView.startAnimation(anim);
+                            startStIdTextView.startAnimation(anim);
                         }
                         // 탑승 중인 버스가 이전 정류장 도착한 경우
                         else if (flag == 2) {
                             tts.speech("목적지가 다음 정류장 입니다. 하차준비를 해주세요.");
                             conn.setRequestMethod("PUT");
                             userData.cleanUserData();
+                            destStTextView.startAnimation(anim);
+                            destStIdTextView.startAnimation(anim);
                         }
                         OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
                         out.write("");
