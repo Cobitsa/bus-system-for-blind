@@ -78,10 +78,10 @@ public class Command {
             getCommand();
         } else if (verb.contains("내리")) {
             // 내릴 정류장 지정
-            if(userData.ridingBus.vehId.equals("")){
+/*            if(userData.ridingBus.vehId.equals("")){
                 tts.speech("죄송해요. 지금 탑승하시고 계신 버스를 모르겠어요.");
                 return;
-            }
+            }*/
 
             String[] split = command.split("에서");
             args.add(split[0]);
@@ -112,12 +112,11 @@ public class Command {
                     tts.speech("죄송해요 " + this.args.get(0) + "번 버스를 찾을수 없어요. 다시 확인해주세요.");
             } else if (commandFlag == 2) {
                 String station = "";
-                if (this.args.get(0).substring(this.args.get(0).length() - 1).equals("역"))
-                    station = this.args.get(0).substring(0, this.args.get(0).length() - 1);
-                else if (this.args.get(0).substring(this.args.get(0).length() - 3).equals("정류장"))
+                if (this.args.get(0).substring(this.args.get(0).length() - 3).equals("정류장"))
                     station = this.args.get(0).substring(0, this.args.get(0).length() - 3);
                 else
                     station = this.args.get(0);
+                System.out.println(station);
                 // 하차지정 명령 실행
                 if (setDestination.setBus(userData.ridingBus.routeId, userData.startStation.arsId, station)) {
                     tts.speech(station + " 정류장 에서 알려드릴게요");
