@@ -121,7 +121,7 @@ public class SetDestination {
         boolean ret = false;
 
         for (String name : nameList) {
-            if (name.equals(sttDestination)) {
+            if (name.replace(" ","").contains(sttDestination.replace(" ",""))) {
                 ret = true;
                 break;
             }
