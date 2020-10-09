@@ -41,6 +41,7 @@ public class SetRideBus {
         ArrayList<String> infoList = new ArrayList<>();
         String tmpNum = "";
         String tmpRouteId = "";
+        String tmpRouteType = "";
 
         try {
             ParsingXML parsingXML = new ParsingXML(url);
@@ -48,6 +49,7 @@ public class SetRideBus {
                 if (parsingXML.parsing("busRouteNm", i).equals(sttBus)) {
                     tmpNum = parsingXML.parsing("busRouteNm", i);
                     tmpRouteId = parsingXML.parsing("busRouteId", i);
+                    tmpRouteType = parsingXML.parsing("busRouteType", i);
                 }
             }
 
@@ -59,8 +61,10 @@ public class SetRideBus {
             return false;
         infoList.add(tmpNum);
         infoList.add(tmpRouteId);
+        infoList.add(tmpRouteType);
         userData.ridingBus.number = infoList.get(0);
         userData.ridingBus.routeId = infoList.get(1);
+        userData.ridingBus.routeType = infoList.get(2);
 
         // Process 2-2 : 탑승예정 버스 지정
         // 탑승 예정 버스의 차량 아이디 저장

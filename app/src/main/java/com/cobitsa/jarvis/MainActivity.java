@@ -1,9 +1,11 @@
 package com.cobitsa.jarvis;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.ColorSpace;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;

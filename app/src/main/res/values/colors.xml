@@ -10,4 +10,12 @@
     <color name="colorBlue_1">#7ad5f0</color>
     <color name="colorBlue_2">#3d90a8</color>
     <color name="colorWhite_1">#e3e3e3</color>
+
+    <color name="colorDarkBlue">#091258</color>
+    <color name="colorWhite">#EFF7FF</color>
+    <color name="colorBlack">#1C1C1C</color>
+    <color name="colorBlue">#3B5AA7</color>
+    <color name="colorGreen">#59B325</color>
+    <color name="colorRed">#BE4531</color>
+    <color name="colorYello">#E6A842</color>
 </resources>

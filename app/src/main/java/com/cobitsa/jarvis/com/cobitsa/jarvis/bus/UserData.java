@@ -43,11 +43,13 @@ public class UserData {
         public String number;       // 버스 번호
         public String routeId;        // 노선 아이디
         public String vehId;           // 차량 아이디
+        public String routeType;    // 버스 타입
 
         Bus() {
             number = "";
             routeId = "";
             vehId = "";
+            routeType = "";
         }
     }
 
