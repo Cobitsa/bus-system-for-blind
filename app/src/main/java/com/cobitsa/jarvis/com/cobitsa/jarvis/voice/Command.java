@@ -48,10 +48,7 @@ public class Command {
         setOnEndListeningListener(new OnEndListeningListener() {
             @Override
             public void onEndListening(ListeningEvent listeningEvent) throws InterruptedException {
-                if (cnt == 0)                       // Speech Recognizer onResult 두번 호출되는 오류때문에 핸들링
                     executeCommand(stt.result.get(0));
-                else
-                    cnt--;
             }
         });
     }
