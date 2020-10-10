@@ -1,6 +1,7 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common;
 
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.cobitsa.jarvis.MainActivity;
@@ -61,6 +62,8 @@ public class TraceBus {
     // @param API URL, 정류소 ID, 탑승예정 or 탑승 중 플레그
     public void checkBusLoc(final String url, final String stId, final int flag) {
 
+        Log.e("checkBusLoc", "실행");
+
 
         final TTS tts = new TTS();
         final Timer timer = new Timer();
@@ -68,6 +71,7 @@ public class TraceBus {
             @Override
             public void run() {
                 try {
+                    Log.e("checkBusLoc-task", "실행");
                     ParsingXML parsingXML = new ParsingXML(url);
                     String s = "";
                     s = parsingXML.parsing("stId", 0);
@@ -93,10 +97,10 @@ public class TraceBus {
                             destStTextView.startAnimation(anim);
                             destStIdTextView.startAnimation(anim);
                         }
-                        OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
-                        out.write("");
-                        out.close();
-                        conn.getInputStream();
+//                        OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+//                        out.write("");
+//                        out.close();
+//                        conn.getInputStream();
                         timer.cancel();
                     }
                 } catch (ParserConfigurationException | InterruptedException | IOException e) {

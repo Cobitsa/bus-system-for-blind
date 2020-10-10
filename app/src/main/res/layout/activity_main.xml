@@ -21,7 +21,8 @@
             android:gravity="center"
             android:text="@string/currentStTextTitle"
             android:textColor="@color/colorWhite"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:fontFamily="@font/font"/>
 
         <TextView
             android:id="@+id/currentStTextView"
@@ -34,7 +35,8 @@
             android:textColor="@color/colorBlack"
             app:autoSizeMaxTextSize="100dp"
             app:autoSizeMinTextSize="20dp"
-            app:autoSizeTextType="uniform" />
+            app:autoSizeTextType="uniform"
+            android:fontFamily="@font/font"/>
 
         <TextView
             android:id="@+id/currentStIdTextView"
@@ -47,7 +49,8 @@
             android:textColor="@color/colorBlack"
             app:autoSizeMaxTextSize="100dp"
             app:autoSizeMinTextSize="20dp"
-            app:autoSizeTextType="uniform" />
+            app:autoSizeTextType="uniform"
+            android:fontFamily="@font/font"/>
 
         <TextView
             android:id="@+id/textView2"
@@ -57,7 +60,8 @@
             android:gravity="center"
             android:text="@string/busTextTitle"
             android:textColor="@color/colorWhite"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:fontFamily="@font/font"/>
 
         <TextView
             android:id="@+id/busTextView"
@@ -70,7 +74,8 @@
             android:textColor="@color/colorWhite"
             app:autoSizeMaxTextSize="100dp"
             app:autoSizeMinTextSize="20dp"
-            app:autoSizeTextType="uniform" />
+            app:autoSizeTextType="uniform"
+            android:fontFamily="@font/font"/>
 
         <TextView
             android:id="@+id/textView3"
@@ -80,7 +85,8 @@
             android:gravity="center"
             android:text="@string/destStTextTitle"
             android:textColor="@color/colorWhite"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:fontFamily="@font/font"/>
 
         <TextView
             android:id="@+id/destStTextView"
@@ -93,7 +99,8 @@
             android:textColor="@color/colorBlack"
             app:autoSizeMaxTextSize="100dp"
             app:autoSizeMinTextSize="20dp"
-            app:autoSizeTextType="uniform" />
+            app:autoSizeTextType="uniform"
+            android:fontFamily="@font/font"/>
 
         <TextView
             android:id="@+id/destStIdTextView"
@@ -106,7 +113,8 @@
             android:textColor="@color/colorBlack"
             app:autoSizeMaxTextSize="100dp"
             app:autoSizeMinTextSize="20dp"
-            app:autoSizeTextType="uniform" />
+            app:autoSizeTextType="uniform"
+            android:fontFamily="@font/font"/>
     </LinearLayout>
 
 
@@ -115,14 +123,22 @@
         android:layout_height="match_parent"
         android:background="@color/colorDarkBlue">
 
-        <ImageButton
+        <Button
             android:id="@+id/STTButton"
-            android:layout_width="383dp"
-            android:layout_height="87dp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:background="@drawable/button_click"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/sttbutton" />
+            android:background="@drawable/sttbutton"
+            android:scaleType="fitCenter" />
+
+<!--        <Button-->
+<!--            android:id="@+id/STTButton"-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="fill_parent"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:background="@color/colorDarkBlue"-->
+<!--            android:scaleType="fitCenter"-->
+<!--            />-->
 
     </FrameLayout>
 
