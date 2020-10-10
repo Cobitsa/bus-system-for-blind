@@ -1,10 +1,9 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.voice;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
 import android.util.Log;
 
-import com.cobitsa.jarvis.R;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.ride.GetStationInfo;
 
 import java.util.ArrayList;
@@ -66,7 +65,6 @@ public class Command {
 
     }
 
-    @SuppressLint("ResourceAsColor")
     public void executeCommand(String command) throws InterruptedException {
         KomoranResult analyzeResult = analyzeCommand(command);
         List<String> verb = analyzeResult.getMorphesByTags("VV");
@@ -114,11 +112,12 @@ public class Command {
                     // 버스 색 지정
                     // (1:공항, 2:마을, 3:간선, 4:지선, 5:순환, 6:광역, 7:인천, 8:경기, 9:폐지, 0:공용)
                     int routeType = Integer.parseInt(userData.ridingBus.routeType);
-                    if (routeType == 2 || routeType == 4) { busTextView.setBackgroundColor(R.color.colorGreen); }
-                    else if (routeType == 3) { busTextView.setBackgroundColor(R.color.colorBlue); }
-                    else if (routeType == 5) { busTextView.setBackgroundColor(R.color.colorYello); }
-                    else if (routeType == 6) { busTextView.setBackgroundColor(R.color.colorRed); }
-                    else { busTextView.setBackgroundColor(R.color.colorBlack); }
+                    Log.e("타입이 무엇이냐", Integer.toString(routeType));
+                    if (routeType == 2 || routeType == 4) { busTextView.setBackgroundColor(Color.parseColor("#59B325")); }
+                    else if (routeType == 3) { busTextView.setBackgroundColor(Color.parseColor("#3B5AA7")); }
+                    else if (routeType == 5) { busTextView.setBackgroundColor(Color.parseColor("#E6A842")); }
+                    else if (routeType == 6) { busTextView.setBackgroundColor(Color.parseColor("#BE4531")); }
+                    else { busTextView.setBackgroundColor(Color.parseColor("#1C1C1C")); }
                 }
                 else
                     tts.speech("죄송해요 " + this.args.get(0) + "번 버스를 찾을수 없어요. 다시 확인해주세요.");
