@@ -14,6 +14,7 @@ import static com.cobitsa.jarvis.MainActivity.userData;
 public class GetStationInfo {
 
     String key;             // 인증키
+    private final static int START_DISTANCE_FOR_GET_STATION = 30;
 
     // 인증키 값으로 초기화
     public GetStationInfo(String key) {
@@ -25,7 +26,7 @@ public class GetStationInfo {
         GpsTracker gpsTracker = new GpsTracker(mainActivity);
         double latitute = gpsTracker.getLatitude();
         double longitude = gpsTracker.getLongitude();
-        ArrayList<String> stInfo = this.getApiData(Double.toString(longitude),Double.toString(latitute),  Integer.toString(60));
+        ArrayList<String> stInfo = this.getApiData(Double.toString(longitude),Double.toString(latitute),  Integer.toString(START_DISTANCE_FOR_GET_STATION));
 
 
         if (stInfo == null)

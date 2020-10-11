@@ -109,7 +109,6 @@ public class Command {
                     // 버스 색 지정
                     // (1:공항, 2:마을, 3:간선, 4:지선, 5:순환, 6:광역, 7:인천, 8:경기, 9:폐지, 0:공용)
                     int routeType = Integer.parseInt(userData.ridingBus.routeType);
-                    Log.e("타입이 무엇이냐", Integer.toString(routeType));
                     if (routeType == 2 || routeType == 4) { busTextView.setBackgroundColor(Color.parseColor("#59B325")); }
                     else if (routeType == 3) { busTextView.setBackgroundColor(Color.parseColor("#3B5AA7")); }
                     else if (routeType == 5) { busTextView.setBackgroundColor(Color.parseColor("#E6A842")); }

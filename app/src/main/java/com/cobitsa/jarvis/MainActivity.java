@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         anim.setRepeatCount(20);
 
         command = new Command(mainActivity);
+
+        // STT버튼 OnTouch 이벤트 (색상변경)
         sttButton = findViewById(R.id.STTButton);
         sttButton.setOnClickListener(new View.OnClickListener() {
             @Override
