@@ -2,7 +2,6 @@ package com.cobitsa.jarvis.com.cobitsa.jarvis.voice;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.util.Log;
 
 import com.cobitsa.jarvis.com.cobitsa.jarvis.bus.ride.GetStationInfo;
 
