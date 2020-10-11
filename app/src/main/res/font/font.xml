@@ -3,5 +3,5 @@
     <font
         android:fontStyle = "normal"
         android:fontWeight = "400"
-        android:font = "@font/nanumgothic"/>
+        android:font = "@font/nanumsquarebold"/>
 </font-family>

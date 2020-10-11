@@ -1,5 +1,6 @@
 package com.cobitsa.jarvis;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static TextView destStIdTextView;
     public static Animation anim;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
