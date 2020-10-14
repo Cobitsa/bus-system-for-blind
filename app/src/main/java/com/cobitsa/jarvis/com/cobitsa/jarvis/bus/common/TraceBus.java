@@ -69,7 +69,7 @@ public class TraceBus {
                     String s = "";
                     s = parsingXML.parsing("stId", 0);
                     if (s.equals(stId)) {
-                        URL url = new URL("https://api.codingnome.dev/bus/" + vehId);
+                        URL url = new URL("https://cobitsa.herokuapp.com/bus/" + vehId);
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         // 음성, 진동 알림
                         MediaPlayer mediaPlayer = MediaPlayer.create(getAppContext(), R.raw.sound_dingdong);
