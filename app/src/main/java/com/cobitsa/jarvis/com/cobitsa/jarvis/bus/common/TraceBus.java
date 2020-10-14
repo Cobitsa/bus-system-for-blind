@@ -1,6 +1,7 @@
 package com.cobitsa.jarvis.com.cobitsa.jarvis.bus.common;
 
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.cobitsa.jarvis.R;
 import com.cobitsa.jarvis.com.cobitsa.jarvis.voice.TTS;
@@ -90,10 +91,10 @@ public class TraceBus {
                             destStTextView.startAnimation(anim);
                             destStIdTextView.startAnimation(anim);
                         }
-//                        OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
-//                        out.write("");
-//                        out.close();
-//                        conn.getInputStream();
+                        OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+                        out.write("");
+                        out.close();
+                        conn.getInputStream();
                         timer.cancel();
                     }
                 } catch (ParserConfigurationException | InterruptedException | IOException e) {
