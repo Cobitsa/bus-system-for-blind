@@ -67,7 +67,6 @@ public class SetDestination {
             e.printStackTrace();
         }
 
-
         // 유효한 정류소인지 확인
         // 만약 유효하다면 목적지가 될수있는 모든 정류소의 인덱스를 리스트에 저장
         if (isExist(sttDestination, nameList)) {
@@ -109,7 +108,6 @@ public class SetDestination {
         destStIdTextView.setText(desArs);
         // Process 6 : 버스 추적을 위한 이전 정류소 정보 검색
         userData.desStation.prevId = getPrevStId.get(userData.ridingBus.routeId, userData.desStation.id);
-
         // Process 7 : 탑승중인 버스 추적
         traceBus.tracing(userData.desStation.prevId, userData.ridingBus.vehId, 2);
         return true;
