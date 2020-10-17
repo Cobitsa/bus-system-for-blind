@@ -9,5 +9,6 @@
     <string name="destStText"> </string>
     <string name="currentStIdText"> </string>
     <string name="destStIdText"> </string>
+    <string name="sttButton">음성 명령</string>
 
 </resources>

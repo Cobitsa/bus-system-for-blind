@@ -129,6 +129,7 @@
 
         <Button
             android:id="@+id/STTButton"
+            android:contentDescription="@string/sttButton"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"

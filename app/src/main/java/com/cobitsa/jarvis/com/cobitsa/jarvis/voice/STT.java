@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -14,10 +15,13 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 
 import com.cobitsa.jarvis.MainActivity;
+import com.cobitsa.jarvis.R;
 
 import java.util.ArrayList;
 
 import static androidx.core.app.ActivityCompat.requestPermissions;
+import static com.cobitsa.jarvis.MainActivity.getAppContext;
+import static com.cobitsa.jarvis.MainActivity.vibrator;
 
 public class STT {
     Intent intent;
@@ -36,7 +40,9 @@ public class STT {
         mRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle bundle) {
-
+                MediaPlayer mediaPlayer = MediaPlayer.create(getAppContext(), R.raw.pling);
+                mediaPlayer.start();
+                vibrator.vibrate(100);
             }
 
             @Override

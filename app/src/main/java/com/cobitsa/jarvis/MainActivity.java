@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -95,6 +96,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public static void clearViews(){
+        startStTextView.setText("");
+        startStIdTextView.setText("");
+        busTextView.setText("");
+        busTextView.setBackgroundColor(Color.parseColor("#EFF7FF"));
+        destStIdTextView.setText("");
+        destStTextView.setText("");
+    }
+
 
     @Override
     protected void onDestroy() {

@@ -17,6 +17,7 @@ import java.util.TimerTask;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import static com.cobitsa.jarvis.MainActivity.clearViews;
 import static com.cobitsa.jarvis.MainActivity.destStIdTextView;
 import static com.cobitsa.jarvis.MainActivity.destStTextView;
 import static com.cobitsa.jarvis.MainActivity.getAppContext;
@@ -70,6 +71,7 @@ public class TraceBus {
                     String s = "";
                     s = parsingXML.parsing("stId", 0);
                     if (s.equals(stId)) {
+                        Thread.sleep(20000);
                         URL url = new URL("https://cobitsa.herokuapp.com/bus/" + vehId);
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         // 음성, 진동 알림
@@ -87,9 +89,11 @@ public class TraceBus {
                         else if (flag == 2) {
                             tts.speech("목적지가 다음 정류장 입니다. 하차준비를 해주세요.");
                             conn.setRequestMethod("PUT");
-                            userData.cleanUserData();
                             destStTextView.startAnimation(anim);
                             destStIdTextView.startAnimation(anim);
+                            Thread.sleep(10000);
+                            userData.cleanUserData();
+                            clearViews();
                         }
                         OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
                         out.write("");
