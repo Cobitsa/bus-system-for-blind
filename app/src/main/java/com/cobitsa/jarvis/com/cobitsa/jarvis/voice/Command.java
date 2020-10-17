@@ -76,19 +76,18 @@ public class Command {
             getCommand();
         } else if (verb.contains("내리")) {
             // 내릴 정류장 지정
-/*            if(userData.ridingBus.vehId.equals("")){
+            if(userData.ridingBus.vehId.equals("")){
                 tts.speech("죄송해요. 지금 탑승하시고 계신 버스를 모르겠어요.");
                 return;
-            }*/
-
+            }
             String[] split = command.split("에서");
-            args.add(split[0]);
-            tts.speech(split[0] + "이 맞습니까?");
+            args.add(split[0].replace(" ",""));
+            tts.speech(split[0].replace(" ","") + " 정류장이 맞습니까?");
             Thread.sleep(3000);
             commandFlag = 2;
             this.cnt = 1;
             //맞는지 아닌지 확인
-            getCommand();
+            getCommand(); 
         } else if (analyzeResult.getMorphesByTags("NP").contains("여기")) {
             // 현재 정류장 확인
             if (getStationInfo.checkWhereAmI(mainActivity)) {
