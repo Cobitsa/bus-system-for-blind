@@ -6,7 +6,8 @@
 이용하기 어려운 교통수단으로 버스를 꼽은것을 보고 시작한 프로젝트이다. 시각장애인이 이용상의 불편함으로 인하여 이동 시에 대중교통을 선택하지 않는 상황이 발생하지 않도록,
 대중교통의 이용경험에서 제시된 불편한 점을 개선할 수 있도록 함이 목적입니다.
 
-<iframe width="1280" height="720" src="https://www.youtube.com/embed/ze7qtyzc1TM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## 프로젝트 소개 영상
+[![소개 영상](http://img.youtube.com/vi/ze7qtyzc1TM/0.jpg)](https://www.youtube.com/watch?v=ze7qtyzc1TM)
 
 ## 프로젝트 목표
 
@@ -48,20 +49,6 @@
 4. 버스 기사 알림 기능  
    버스 다말기에 시각장애인의 탑승/하차 여부를 알려준다.
 
-<figure style="width:30%;float:left;margin: 1.6%;">
-<img src="https://github.com/Cobitsa/App/blob/develop/findStation.png?raw=true" alt="정류장 조회" width="100%"/>
-<figcaption style="text-align: center">1. 정류장 조회</figcaption>
-</figure>
-<figure style="width:30%;float:left;margin: 1.6%;">
-<img src="https://github.com/Cobitsa/App/blob/develop/reserveBus.png?raw=true" alt="승차 예약" width="100%"/>
-<figcaption style="text-align: center">2. 승차 예약</figcaption>
-</figure>
-<figure style="width:30%;float:left;margin: 1.6%;">
-<img src="https://github.com/Cobitsa/App/blob/develop/reserveStation.png?raw=true" alt="하차 정류장 예약" width="100%"/>
-<figcaption style="text-align: center">3. 하차 정류장 예약</figcaption>
-</figure>
-<br/>
-<figure>
+ <img src="https://github.com/Cobitsa/App/blob/develop/findStation.png?raw=true" alt="정류장 조회" width="32.5%"/>    <img src="https://github.com/Cobitsa/App/blob/develop/reserveBus.png?raw=true" alt="승차 예약" width="32.5%"/>    <img src="https://github.com/Cobitsa/App/blob/develop/reserveStation.png?raw=true" alt="하차 정류장 예약" width="33%"/>
+
 <img src="https://github.com/Cobitsa/App/blob/develop/bus.png?raw=true" alt="버스 앱" width="100%"/>
-<figcaption style="text-align: center">4. 버스 기사 알림</figcaption>
-</figure>
