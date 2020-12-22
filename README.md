@@ -47,8 +47,8 @@
    00 정류장에서 내릴게 라고 명령을 할 시 버스가 도달하게 될 정류장 리스트와 비교하여 하차 예약된 정류장의 이전정류장을 출발 한 후 사용자에게
    진동과 음성으로 알림을 주며, 버스 단말과 연동되어 하차벨이 작동되며 시각장애인이 하차할것이라는 알림을 추가적으로 준다.
 4. 버스 기사 알림 기능  
-   버스 다말기에 시각장애인의 탑승/하차 여부를 알려준다.
+   버스 단말기에 시각장애인의 탑승/하차 여부를 알려준다.
 
- <img src="https://github.com/Cobitsa/App/blob/develop/findStation.png?raw=true" alt="정류장 조회" width="32.5%"/>    <img src="https://github.com/Cobitsa/App/blob/develop/reserveBus.png?raw=true" alt="승차 예약" width="32.5%"/>    <img src="https://github.com/Cobitsa/App/blob/develop/reserveStation.png?raw=true" alt="하차 정류장 예약" width="33%"/>
+ <img src="https://github.com/Cobitsa/App/blob/develop/findStation.png?raw=true" alt="정류장 조회" width="32%"/>    <img src="https://github.com/Cobitsa/App/blob/develop/reserveBus.png?raw=true" alt="승차 예약" width="32%"/>    <img src="https://github.com/Cobitsa/App/blob/develop/reserveStation.png?raw=true" alt="하차 정류장 예약" width="32.5%"/>
 
 <img src="https://github.com/Cobitsa/App/blob/develop/bus.png?raw=true" alt="버스 앱" width="100%"/>
