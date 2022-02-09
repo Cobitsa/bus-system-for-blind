@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public static Vibrator vibrator;
     private Button sttButton;
     private static Context context;
-    private String key = "mpXr6l%2BzwqmC6m4%2B%2FXEuhxPp62Z0EthgawICAoV%2BxIv4OKFnU53i2bH2omhogoZ3a4HWK1uK3Uq8WpJxn2k3WQ%3D%3D";
+    private String key = "activateKey";
     public static UserData userData = new UserData();
     public static SetRideBus rideBus;
     public static SetDestination setDestination;
